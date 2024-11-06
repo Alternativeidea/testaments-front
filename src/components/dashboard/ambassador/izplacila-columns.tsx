@@ -30,7 +30,7 @@ export const IzplacilaColumns: ColumnDef<WithdrawsProps>[] = [
                 <div className='flex flex-col items-start justify-center'>
                     <b>ID: {row.original.id}</b>
                     <span className='line-clamp-1 text-body-small'>
-                        {format(row.original.updatedAt, 'PPP', { locale: sl })}
+                        {format(row.original.updatedAt, 'PP', { locale: sl })}
                     </span>
                 </div>
             </MovementRowItem>

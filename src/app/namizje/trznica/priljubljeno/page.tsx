@@ -24,6 +24,7 @@ export default async function FavoritesPage() {
                                         key={item.id}
                                         product={item}
                                         membershipId=''
+                                        isPFeatured={false}
                                     />)}
                             </div>)
                         : (<div className='w-full'>

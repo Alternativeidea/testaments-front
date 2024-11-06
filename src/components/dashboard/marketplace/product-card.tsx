@@ -21,9 +21,10 @@ import 'yet-another-react-lightbox/styles.css'
 interface ProductCardProps {
     product: ProductProps
     membershipId: string
+    isPFeatured: boolean
 }
 
-export function ProductCard({ product: { id, category, name, description, characteristics, isFeatured, price, picture, picture2, picture3, picture4, wishlist, interest }, membershipId }: ProductCardProps) {
+export function ProductCard({ product: { id, category, name, description, characteristics, isFeatured, price, picture, picture2, picture3, picture4, wishlist, interest }, membershipId, isPFeatured }: ProductCardProps) {
     const [favorite, setFavorite] = useState(wishlist)
     const [openSheet, setOpenSheet] = useState(false)
     const { refresh } = useRouter()
@@ -54,7 +55,7 @@ export function ProductCard({ product: { id, category, name, description, charac
                         <CardBadge title={
                             (price === -1)
                                 ? 'Cena je po dogovoru'
-                                : `${price.toLocaleString('sl-SI')} EUR`} className={membershipId === 'PLAN_FREE' ? 'right-2 top-2 z-20 font-bold' : 'absolute right-2 top-2 z-20 font-bold'} />
+                                : `${price.toLocaleString('sl-SI')} EUR`} className='absolute right-2 top-2 z-20 font-bold' />
                         {interest && (
                             <CardBadge
                                 title='Oddano zanimanje'
@@ -66,7 +67,8 @@ export function ProductCard({ product: { id, category, name, description, charac
                 </CardHeader>
                 <CardContent className='flex flex-auto flex-col'>
                     <div className='flex flex-col'>
-                        <div className='h-32 @[500px]:h-36 mb-4'>
+                        {/* <div className='h-32 @[500px]:h-36 mb-4'> */}
+                        <div className='@[500px]:h-36 h-fit mb-4'>
                             <div className='flex w-full items-center justify-between py-2'>
                                 <p className='text-body-medium uppercase'>{category.name}</p>
                                 <Button
@@ -82,8 +84,8 @@ export function ProductCard({ product: { id, category, name, description, charac
                                     />
                                 </Button>
                             </div>
-                            <p className={'line-clamp-1 overflow-ellipsis pb-2 whitespace-nowrap font-baskerville text-h5'}>{name}</p>
-                            <p className='line-clamp-2 mt-2 mb-2 overflow-ellipsis pt-2 text-body-medium'>{description.substring(0, 240)}</p>
+                            <p className={`line-clamp-1 overflow-ellipsis font-baskerville ${isPFeatured ? 'text-h5 leading-relaxed' : 'text-h6 leading-[1.725]'}`}>{name}</p>
+                            <p className='line-clamp-2 mb-2 overflow-ellipsis text-body-medium'>{description.substring(0, 240)}</p>
                         </div>
                         {characteristics && (
                             <BenefitBlockItems>
@@ -270,7 +272,7 @@ function ProductDetails({ product: { id, category, name, description, characteri
                                             </div>
                                             <p className='line-clamp-1 h-8 overflow-ellipsis font-baskerville text-h6'>{name}</p>
                                             <p className='text-body-small font-semibold uppercase'>{ `${(price === -1) ? 'Cena je po dogovoru' : (price?.toLocaleString('sl-SI') + ' EUR')}`}</p>
-                                            <p className='mb-12 mt-4 overflow-ellipsis text-body-small'>{description}</p>
+                                            <p className='mb-2 mt-4 overflow-ellipsis text-body-small'>{description}</p>
                                             {characteristics && (
                                                 <BenefitBlockItems>
                                                     {characteristics.map((item) =>

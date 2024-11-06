@@ -8,8 +8,6 @@ import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet'
 import { REQUEST_ACTIONS, REQUEST_STATUS } from '@/lib/constants/wills'
 import { useFetch } from '@/lib/hooks/use-fetch'
 import { getCategories } from '@/lib/services/categories'
-import { format } from 'date-fns'
-import { sl } from 'date-fns/locale'
 import { useState } from 'react'
 import { AdminDeleteWillSheet, useAdminDeleteWillState } from '../../users/oporoke/admin-delete-will-sheet'
 import { AdminNewWillSheet, useAdminNewWillState } from '../../users/oporoke/admin-new-will-sheet'
@@ -59,7 +57,7 @@ export default function WillsRows({ data, className, limit }: WillsRowsProps) {
                                     <MovementIcon icon={REQUEST_STATUS[will.status].icon} />
                                     <div className='w-fit flex flex-col items-start justify-center'>
                                         <span className='text-body-big-2 font-medium'>ID Oporoke: {will.will.id}</span>
-                                        <span className='text-body-small'>{format(will.updatedAt, 'dd MMM yyyy', { locale: sl })}</span>
+                                        {/* <span className='text-body-small'>{format(will.updatedAt, 'dd MMM yyyy', { locale: sl })}</span> */}
                                     </div>
                                 </MovementRowItem>
                                 <MovementRowItem className='justify-start items-center w-[110px] overflow-hidden text-ellipsis line-clamp-1 text-body-big-2 capitalize font-medium'>
@@ -122,10 +120,10 @@ export default function WillsRows({ data, className, limit }: WillsRowsProps) {
                                         <MovementIcon icon={REQUEST_STATUS[will.status].icon} />
                                         <p className='flex flex-col items-start w-fit text-primary-medium-gray min-w-[180px] text-body-medium text-left'>
                                             <b className='text-primary-medium-gray'>
-                                    ID Oporoke: {will.will.id}
+                                                ID Oporoke: {will.will.id}
                                             </b>
                                             <span className='text-body-medium'>
-                                                {format(will.updatedAt, 'dd MMM yyyy')}
+                                                {/* {format(will.updatedAt, 'dd MMM yyyy')} */}
                                             </span>
                                         </p>
                                     </div>

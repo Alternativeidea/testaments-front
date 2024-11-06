@@ -19,7 +19,11 @@ export default function EditSheet({ id, title, content }: { id : number, title :
             .string()
     })
     const form = useForm<z.infer<typeof schema>>({
-        resolver: zodResolver(schema)
+        resolver: zodResolver(schema),
+        defaultValues: {
+            title,
+            content
+        }
     })
     async function handleSubmit(data: z.infer<typeof schema>) {
         const payload = {

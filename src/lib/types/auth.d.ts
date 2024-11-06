@@ -37,7 +37,10 @@ interface ProfileProps {
     membershipId: number
     memPurchasedAt: Date
     countryId: number | null
-    areaCode: string
+    areaCode: string,
+    country: {
+        name: string
+    }
 }
 
 interface UserAuthProps extends ProfileProps {

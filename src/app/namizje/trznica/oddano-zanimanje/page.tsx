@@ -23,6 +23,7 @@ export default async function SubmittedPage() {
                                         key={item.id}
                                         product={item}
                                         membershipId=''
+                                        isPFeatured={false}
                                     />)}
                             </div>)
                         : (<div className='w-full'>

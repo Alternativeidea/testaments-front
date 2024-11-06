@@ -8,6 +8,7 @@ import { Skeleton } from '@/components/ui/skeleton'
 import { Button } from '@/components/ui/button'
 import { getBonusesRates } from '@/lib/services/admin/ambassadors'
 import CalendarButton from '../ui/calendar-button'
+import OrderByButton from '../ui/order-by-button'
 import BonusRatesCards from './bonus-rates-cards'
 
 export default function BonusesRatesManager() {
@@ -21,6 +22,7 @@ export default function BonusesRatesManager() {
     const [endDate, setEndDate] = useState<string>(date.toISOString().split('T')[0])
     const rowsPerPage = 6
     const [startIndex, setStartIndex] = useState<number>(0)
+    const [orderBy, setOrderBy] = useState<boolean>(false)
     const [endIndex, setEndIndex] = useState<number>(rowsPerPage)
     const [filterByType, setFilterByType] = useState<'tst' | 'premium' | 'all'>('all')
     // const [status, setStatus] = useState<string>('1,2,3')
@@ -28,13 +30,16 @@ export default function BonusesRatesManager() {
     useEffect(() => {
         const fetchData = async () => {
             setLoading(true)
-            const data = await getBonusesRates(
+            let data = await getBonusesRates(
                 `?startAt=${startDate}&endAt=${endDate}&orderBy=-createdAt&type=${filterByType}`)
+            if (orderBy) {
+                data = await data.reverse()
+            }
             setData(data)
             setLoading(false)
         }
         fetchData()
-    }, [endDate, startDate, filterByType])
+    }, [endDate, startDate, filterByType, orderBy])
 
     const pages = Math.ceil(data.length / rowsPerPage)
 
@@ -68,6 +73,10 @@ export default function BonusesRatesManager() {
                 <div className="flex w-full justify-between gap-x-2 lg:w-fit">
                     <p className="block py-2 pr-4 font-baskerville text-h6 lg:hidden">Zgodovina Koeficienta provizije</p>
                     {/* Filter Dates */}
+                    <OrderByButton
+                        orderBy={orderBy}
+                        changeOrder={setOrderBy}
+                    />
                     <CalendarButton
                         changeStartDate={setStartDate}
                         changeEndDate={setEndDate}

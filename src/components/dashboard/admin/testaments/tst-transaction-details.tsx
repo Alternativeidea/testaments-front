@@ -133,14 +133,22 @@ export default function TstConfirmForm({ id, quantity, rate }: UserConfirmProps)
                                     )}
                                 />
                             </div>
-                            <Button>
-                                {form.formState.isSubmitting && (
-                                    <Icons.Spinner className="mr-2 h-4 w-4 animate-spin" />
-                                )}
-                                Potrdi
-                            </Button>
+                            <div className='grid'>
+                                <Button>
+                                    {form.formState.isSubmitting && (
+                                        <Icons.Spinner className="mr-2 h-4 w-4 animate-spin" />
+                                    )}
+                                    Potrdi
+                                </Button>
+                            </div>
                         </form>
                     </Form>
+                    <Button variant={'destructive'} onClick={() => router.back()} className='w-full'>
+                        {form.formState.isSubmitting && (
+                            <Icons.Spinner className="mr-2 h-4 w-4 animate-spin" />
+                        )}
+                                    CANCEL
+                    </Button>
                 </div>
                 : <SuccessScreen/>
             }

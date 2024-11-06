@@ -10,6 +10,6 @@ export const getWishlist = () => apiInstance.get('/users/wishlist')
 
 export const addToWishlist = (id: number) => apiInstance.post(`/products/${id}/wishlist`)
 
-export const getOrders = () => apiInstance.get('/orders')
+export const getOrders = () => apiInstance.get('/orders?status=0')
 
 export const createOrder = (payload: object) => apiInstance.post('/orders', payload)

@@ -1,4 +1,5 @@
 import AmbassadorConfig from '@/components/dashboard/admin/config/ambassador-config'
+import DocumentsConfig from '@/components/dashboard/admin/config/documents-config'
 import GeneralConfig from '@/components/dashboard/admin/config/general-config'
 import MarketConfig from '@/components/dashboard/admin/config/market-config'
 import NewsConfig from '@/components/dashboard/admin/config/news-config'
@@ -39,6 +40,11 @@ export default async function GlobalConfigPage() {
             value: 'novice',
             title: 'Novice',
             content: <NewsConfig />
+        },
+        {
+            value: 'dokumenti',
+            title: 'Dokumenti',
+            content: <DocumentsConfig />
         }
     ]
 

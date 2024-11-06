@@ -110,6 +110,8 @@ export function Sidebar() {
                 revalidateUserData()
             }, 5000)
             return () => clearInterval(intervalId)
+        } else {
+            revalidateUserData()
         }
     }, [setCookies, cookies.user])
 

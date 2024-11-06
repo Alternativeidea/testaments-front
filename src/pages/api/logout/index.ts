@@ -5,6 +5,10 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
         res.setHeader('Set-Cookie', [
             'user=; Path=/; Expires=Thu, 01 Jan 1970 00:00:00 GMT',
             'user=; Path=/namizje; Expires=Thu, 01 Jan 1970 00:00:00 GMT',
+            'user=; Path=/namizje/admin; Expires=Thu, 01 Jan 1970 00:00:00 GMT',
+            'user=; Path=/namizje/admin/gold; Expires=Thu, 01 Jan 1970 00:00:00 GMT',
+            'user=; Path=/namizje/admin/gold/users; Expires=Thu, 01 Jan 1970 00:00:00 GMT',
+            'user=; Path=/*; Expires=Thu, 01 Jan 1970 00:00:00 GMT',
             'token=; Path=/; Expires=Thu, 01 Jan 1970 00:00:00 GMT'
         ])
         res.status(200).json({ message: 'Logged out' })

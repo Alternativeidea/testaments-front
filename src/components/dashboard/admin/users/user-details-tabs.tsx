@@ -17,8 +17,8 @@ export default function UserDetailsTabs() {
     const { replace } = useRouter()
     const pathname = usePathname()
     // Params usage
-    const params = useParams<{id: string, tab: string, view: string}>()
-    const viewParam = searchParams ? searchParams.get('view') : null
+    const params = useParams<{id: string, tab: string}>()
+    const viewParam = searchParams ? searchParams.get('tab') : null
     // UserData
     const [user, setUser] = useState<UserAuthProps>()
     const [heirsView, setHeirsView] = useState<boolean>(false)

@@ -18,11 +18,13 @@ import { allowOnlyLetters, allowOnlyNumbers } from '@/lib/utils/form'
 import { cn } from '@/lib/utils/style'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { format } from 'date-fns'
+import { sl } from 'date-fns/locale'
 import { toast } from 'sonner'
 import * as z from 'zod'
 
 export default function EditUserInfo({ id } : { id: number}) {
     const [loading, setLoading] = useState<boolean>(true)
+    const [tried, setTried] = useState<boolean>(false)
     const [userData, setUserData] = useState<Partial<ProfileProps>>({})
     const form = useForm<z.infer<typeof EditUserFormSchema>>({
         resolver: zodResolver(EditUserFormSchema),
@@ -32,15 +34,20 @@ export default function EditUserInfo({ id } : { id: number}) {
     })
 
     async function handleSubmit(data: z.infer<typeof EditUserFormSchema>) {
+        setTried(true)
         const payload = {
             countryId: Number(data.countryId),
             ...data
+        }
+        if (data.birthdate) {
+            payload.birthdate = data.birthdate
         }
         await updateUser(payload, id)
         try {
             toast.success('Urejeno!', {
                 position: 'bottom-center'
             })
+            setTried(false)
         } catch (error) {
             if (error instanceof Error) {
                 const err = JSON.parse(error.message)
@@ -48,8 +55,16 @@ export default function EditUserInfo({ id } : { id: number}) {
                     description: err.message
                 })
             }
+            setTried(false)
         }
         location.reload()
+    }
+
+    function resetErrors() {
+        if (tried) {
+            form.clearErrors()
+            setTried(false)
+        }
     }
 
     useEffect(() => {
@@ -79,6 +94,7 @@ export default function EditUserInfo({ id } : { id: number}) {
                     <CardContent className='p-2 overflow-y-scroll min-h-full no-scrollbar'>
                         <Form {...form}>
                             <form
+                                onKeyDown={resetErrors}
                                 onSubmit={form.handleSubmit(handleSubmit)}
                                 className='flex flex-col justify-between w-full p-2 min-h-full'>
                                 <div className='grid gap-4'>
@@ -145,7 +161,7 @@ export default function EditUserInfo({ id } : { id: number}) {
                                                                 >
                                                                     {field.value
                                                                         ? (
-                                                                            <span>{format(field.value, 'PPP')}</span>
+                                                                            <span>{format(field.value, 'PPP', { locale: sl })}</span>
                                                                         )
                                                                         : (
                                                                             <span>{userData.birthdate}</span>
@@ -225,6 +241,28 @@ export default function EditUserInfo({ id } : { id: number}) {
                                                             placeholder="Vpišite poštno številko"
                                                             autoComplete="lastname"
                                                             autoCorrect="off"
+                                                            autoCapitalize='off'
+                                                            {...field}
+                                                        />
+                                                    </FormControl>
+                                                    <FormMessage />
+                                                </FormItem>
+                                            )}
+                                        />
+                                    </div>
+                                    <div className='grid gap-1'>
+                                        <FormField
+                                            control={form.control}
+                                            name="address"
+                                            render={({ field }) => (
+                                                <FormItem>
+                                                    <FormLabel>Stalni naslov</FormLabel>
+                                                    <FormControl>
+                                                        <Input
+                                                            defaultValue={userData.address || ''}
+                                                            placeholder="Stalni naslov"
+                                                            autoCorrect="off"
+                                                            autoComplete='off'
                                                             autoCapitalize='off'
                                                             {...field}
                                                         />

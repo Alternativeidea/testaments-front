@@ -17,11 +17,12 @@ export default function WillsCardsManager({ status, filters }: { status: string,
     const rowsPerPage = 6
     const [startIndex, setStartIndex] = useState<number>(0)
     const [endIndex, setEndIndex] = useState<number>(rowsPerPage)
+    const show = false
 
     useEffect(() => {
         const fetchData = async () => {
             setLoading(true)
-            const data = await getAdminWills('?status=' + status)
+            const data = await getAdminWills('?status=' + status + `&orderBy=${orderBy ? '-id' : 'id'}` + `&startAt=${startDate}&endAt=${endDate}`)
             setData(data)
             setLoading(false)
         }
@@ -40,10 +41,12 @@ export default function WillsCardsManager({ status, filters }: { status: string,
                 </div>
                 { filters && <div className="flex gap-x-2">
                     {/* Filter Dates */}
-                    <CalendarButton
-                        changeStartDate={setStartDate}
-                        changeEndDate={setEndDate}
-                    />
+                    {
+                        show && <CalendarButton
+                            changeStartDate={setStartDate}
+                            changeEndDate={setEndDate}
+                        />
+                    }
                     {/* Sort Asc/Desc */}
                     <OrderByButton
                         orderBy={orderBy}

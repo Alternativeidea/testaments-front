@@ -9,6 +9,7 @@ import { Button } from '@/components/ui/button'
 import { Icons } from '@/components/ui/icons'
 import { getAdminWithdraws } from '@/lib/services/admin/ambassadors'
 import CalendarButton from '../ui/calendar-button'
+import OrderByButton from '../ui/order-by-button'
 import WithdrawCards from './withdraw-cards'
 
 export default function WithdrawCardsManager() {
@@ -22,18 +23,22 @@ export default function WithdrawCardsManager() {
     const [startIndex, setStartIndex] = useState<number>(0)
     const [endIndex, setEndIndex] = useState<number>(rowsPerPage)
     const [status, setStatus] = useState<string>('1,2,3')
+    const [orderBy, setOrderBy] = useState<boolean>(false)
 
     useEffect(() => {
         const fetchData = async () => {
             setLoading(true)
-            const data = await getAdminWithdraws(
+            let data = await getAdminWithdraws(
                 `?status=${status}&startAt=${startDate}&endAt=${endDate}&orderBy=-createdAt`
             )
+            if (orderBy) {
+                data = await data.reverse()
+            }
             setData(data)
             setLoading(false)
         }
         fetchData()
-    }, [endDate, startDate, status])
+    }, [endDate, startDate, status, orderBy])
 
     const pages = Math.ceil(data.length / rowsPerPage)
     const [disable, setDisable] = useState<boolean>(false)
@@ -60,6 +65,9 @@ export default function WithdrawCardsManager() {
                 <div className="flex gap-x-2 justify-between lg:w-fit w-full">
                     <p className="lg:hidden py-2 block text-h6 font-baskerville pr-4">Vsa izplačila</p>
                     {/* Filter Dates */}
+                    <OrderByButton
+                        orderBy={orderBy}
+                        changeOrder={setOrderBy}/>
                     <CalendarButton
                         changeStartDate={setStartDate}
                         changeEndDate={setEndDate}

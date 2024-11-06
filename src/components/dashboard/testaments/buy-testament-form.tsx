@@ -233,14 +233,20 @@ function ConfirmScreen({ next, previous, quantity, goldValue }: { goldValue: num
                         minimumFractionDigits: 2,
                         maximumFractionDigits: 2
                     })} EUR</p>
-                    <p>Danes nakupni tečaj zlata: 1,0000g = {goldValue.toLocaleString('sl-SI', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} EUR</p>
+                    <p>Danes nakupni tečaj zlata: 1,0000g = {
+                        Number(goldValue).toLocaleString('sl-SI',
+                            {
+                                minimumFractionDigits: 2,
+                                maximumFractionDigits: 2
+                            }
+                        )} EUR</p>
                     <p className='font-bold'> Stroški obledave: 0,0000 TST</p>
                 </div>
             </div>
             <div className='flex flex-col w-full shadow-box'>
                 <div className="flex w-full justify-between py-8 bg-primary-light-gray/10 px-6">
                     <p>VSE SKUPAJ</p>
-                    <b>{ (goldValue * quantity).toLocaleString('sl-SL', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} EUR</b>
+                    <b>{ (goldValue * quantity).toLocaleString('sl-SI', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} EUR</b>
                 </div>
                 <div className='flex gap-2 w-full items-center justify-between px-6'>
                     <Button disabled={loading} onClick={async () => {

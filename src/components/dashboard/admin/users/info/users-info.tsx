@@ -42,7 +42,7 @@ export default function UsersInfo({ userId }: { userId: number }) {
             const data = await getUser(userId)
             const statusLogs = await getStatusLogs(userId)
             const userTreeData = await getProfileTree(userId)
-            console.log(userTreeData)
+            console.log(data)
             setUserTree(userTreeData)
             setLogs(statusLogs)
             setUserData(data)
@@ -51,7 +51,7 @@ export default function UsersInfo({ userId }: { userId: number }) {
         fetchData()
     }, [userId])
 
-    const { id, status, membershipId, isVerified, createdAt, emailVerifiedAt, name, lastName, birthplace, birthdate, address, emso, tin, career, phone, email, gender, areaCode, memPurchasedAt } = userData
+    const { id, status, membershipId, isVerified, createdAt, emailVerifiedAt, city, name, lastName, birthdate, address, zipcode, emso, tin, career, phone, email, gender, areaCode, memPurchasedAt, country } = userData
 
     return (
         <div className='w-full flex flex-col justify-center items-center'>
@@ -117,11 +117,17 @@ export default function UsersInfo({ userId }: { userId: number }) {
                             <UsersInfoBlockItem loading={loading} label='Priimek'>
                                 {lastName || '-'}
                             </UsersInfoBlockItem>
-                            <UsersInfoBlockItem loading={loading} label='Država prebivališča'>
-                                {birthplace || '-'}
-                            </UsersInfoBlockItem>
                             <UsersInfoBlockItem loading={loading} label='Datum rojstva'>
                                 {birthdate ? format(birthdate, 'PP', { locale: sl }) : '-'}
+                            </UsersInfoBlockItem>
+                            <UsersInfoBlockItem loading={loading} label='Država prebivališča'>
+                                { country?.name || '-'}
+                            </UsersInfoBlockItem>
+                            <UsersInfoBlockItem loading={loading} label='Mesto bivališča'>
+                                {city || '-'}
+                            </UsersInfoBlockItem>
+                            <UsersInfoBlockItem loading={loading} label='Poštna številka'>
+                                {zipcode || '-'}
                             </UsersInfoBlockItem>
                             <UsersInfoBlockItem loading={loading} label='Stalni naslov'>
                                 {address || '-'}
@@ -152,7 +158,7 @@ export default function UsersInfo({ userId }: { userId: number }) {
                     </UsersInfoCard>
                     {logs &&
                     <UsersInfoCard>
-                        <UsersInfoTitle title='Razlog suspensa ali izbrisa'/>
+                        <UsersInfoTitle title='Razlog suspenza, reaktivacije ali izbrisa'/>
                         <UsersInfoContent>
                             {loading
                                 ? <div className='flex w-full justify-between py-4'>
@@ -162,13 +168,11 @@ export default function UsersInfo({ userId }: { userId: number }) {
                                     ? logs.map((log) =>
                                         <UsersInfoBlockItem
                                             key={log?.id}
-                                            label={log ? format(log?.createdAt, 'PP', { locale: sl }) : '-'}
+                                            label={log ? `${format(log?.createdAt, 'PP', { locale: sl })} ${getActionString(log.action)}` : '-'}
                                             separator={false}
                                             loading={loading}
                                         >
                                             <p className='max-w-[160px] lg:max-w-sm text-right'>
-                                                {log?.action}
-                                                -
                                                 {log?.message || '-'}
                                             </p>
                                         </UsersInfoBlockItem>
@@ -231,4 +235,46 @@ export default function UsersInfo({ userId }: { userId: number }) {
             </Sheet>
         </div>
     )
+}
+// make a function that gets a string and returns a string comparing the nexts words:
+// Suspend
+// Reactivate
+// Delete
+// Pokojni
+// Suspendiraj
+// Reaktiviraj
+// Izbriši
+// Pokojni
+function getActionString(input: string): string {
+    let result
+    switch (input.toLowerCase()) {
+    case 'suspend':
+        result = '(S)'
+        break
+    case 'reactivate':
+        result = '(R)'
+        break
+    case 'delete':
+        result = '(I)'
+        break
+    case 'deceased':
+        result = '(Pok)'
+        break
+    case 'suspendiraj':
+        result = '(S)'
+        break
+    case 'reaktiviraj':
+        result = '(R)'
+        break
+    case 'izbriši':
+        result = '(I)'
+        break
+    case 'pokojni':
+        result = '(Pok)'
+        break
+    default:
+        result = 'Unknown word'
+    }
+
+    return result
 }

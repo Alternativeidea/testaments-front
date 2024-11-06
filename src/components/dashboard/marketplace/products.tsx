@@ -29,9 +29,10 @@ export async function Products({ categoryId, searchProduct }: ProductsProps) {
                                 <ProductCard
                                     membershipId='PLAN_FREE'
                                     product={item}
+                                    isPFeatured={true}
                                 />
                             </ProductCardModal>
-                            : <ProductCard product={item} membershipId='PLAN_PREMIUM'/>
+                            : <ProductCard key={`i-${item.id}`} product={item} membershipId='PLAN_PREMIUM' isPFeatured={true}/>
                         }
                     </>
                 )}
@@ -40,7 +41,7 @@ export async function Products({ categoryId, searchProduct }: ProductsProps) {
                 { unfeaturedProducts.length > 0 ? 'Vsi produkti' : 'V tej kategoriji trenutno ni na voljo izdelkov.' }
             </p>
             <div className={'grid lg:grid-cols-3 gap-4 w-full overflow-hidden'}>
-                { membershipId === PLAN_FREE && <span className='absolute bg-primary-white/20 w-screen h-full z-20 backdrop-blur lg:-ml-[20vw]'/>}
+                { membershipId === PLAN_FREE && <span className='absolute bg-primary-white/20 w-screen h-full z-40 backdrop-blur lg:-ml-[20vw]'/>}
                 {unfeaturedProducts.map((item) =>
                     <>
                         {membershipId === PLAN_FREE
@@ -48,9 +49,10 @@ export async function Products({ categoryId, searchProduct }: ProductsProps) {
                                 <ProductCard
                                     membershipId='PLAN_FREE'
                                     product={item}
+                                    isPFeatured={false}
                                 />
                             </ProductCardModal>
-                            : <ProductCard product={item} membershipId='PLAN_PREMIUM'/>
+                            : <ProductCard key={`i-${item.id}`} product={item} membershipId='PLAN_PREMIUM' isPFeatured={false}/>
                         }
                     </>
                 )}

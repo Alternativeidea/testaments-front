@@ -31,13 +31,21 @@ export const EditUserFormSchema = z.object({
     tin: z
         .string()
         .min(2, { message: 'Davčna številka mora vsebovati vsaj 2 znaka' })
-        .optional(),
+        .optional()
+        .or(z.literal('')),
     emso: z
         .string()
-        .length(13, { message: 'Emso neveljaven' })
-        .optional(),
+        .min(13, { message: 'Emso neveljaven' })
+        .max(13, { message: 'Emso neveljaven' })
+        .optional()
+        .or(z.literal('')),
     career: z
         .string()
         .min(2, { message: 'Kariera mora vsebovati vsaj 2 lika' })
+        .optional(),
+    address: z
+        .string()
+        .min(2, { message: 'Stalni naslov vsaj 2 lika' })
         .optional()
+        .or(z.literal(''))
 })

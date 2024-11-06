@@ -1,10 +1,10 @@
-import { getAdminWithdraws } from '@/lib/services/admin/ambassadors'
+// import { getAdminWithdraws } from '@/lib/services/admin/ambassadors'
 import IzplacilaGeneralData from './izplacila-general-data'
-import WithdrawCards from './withdraw-cards'
 import WithdrawCardsManager from './withdraw-cards-manager'
+import WithdrawCardsManagerSimple from './withdraw-cards-simple'
 
 export default async function Izplacila() {
-    const withdraws = await getAdminWithdraws('?status=1&orderBy=-updatedAt')
+    // const withdraws = await getAdminWithdraws('?status=1&orderBy=-updatedAt')
 
     return (
         <div className="flex flex-col w-full pt-6">
@@ -29,8 +29,9 @@ export default async function Izplacila() {
             </Card> */}
             <div className="flex flex-col gap-y-4 w-full items-start justify-center pt-6">
                 {/* <h3 className="font-baskerville text-h6">Oddani zahtevki / Mesečno izplačilo za { format(Date(), 'MMMM', { locale: sl }) }</h3> */}
-                <h3 className="font-baskerville text-h6">Izplačila (Oddani zahtevki - v obdelavi)</h3>
-                <WithdrawCards data={withdraws} className='w-full' limit={10}/>
+                {/* <h3 className="font-baskerville text-h6">Izplačila (Oddani zahtevki - v obdelavi)</h3> */}
+                {/* <WithdrawCards data={withdraws} className='w-full' limit={10}/> */}
+                <WithdrawCardsManagerSimple/>
             </div>
             <WithdrawCardsManager/>
         </div>

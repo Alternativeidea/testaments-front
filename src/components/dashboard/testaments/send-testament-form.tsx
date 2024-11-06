@@ -132,7 +132,10 @@ export default function SendTestamentForm({ balance }: { balance: number }) {
                                                 <div>
                                                     <Label>Gram</Label>
                                                     <Input
-                                                        value={Number((!quantity ? 0 : quantity).toFixed(4)).toLocaleString('sl-SI')}
+                                                        value={Number((!quantity ? 0 : quantity)).toLocaleString('sl-SI', {
+                                                            minimumFractionDigits: 2,
+                                                            maximumFractionDigits: 2
+                                                        })}
                                                         placeholder="Gr"
                                                         readOnly
                                                         className='p-6 bg-transparent'
@@ -141,7 +144,10 @@ export default function SendTestamentForm({ balance }: { balance: number }) {
                                                 <div>
                                                     <Label>EUR</Label>
                                                     <Input
-                                                        value={Number((goldValue * (!quantity ? 0 : quantity)).toFixed(2)).toLocaleString('sl-SI')}
+                                                        value={Number((goldValue * (!quantity ? 0 : quantity))).toLocaleString('sl-SI', {
+                                                            minimumFractionDigits: 2,
+                                                            maximumFractionDigits: 2
+                                                        })}
                                                         placeholder="EUR"
                                                         readOnly
                                                         className='p-6 bg-transparent'
@@ -260,7 +266,10 @@ function ConfirmScreen({ next, previous, quantity, goldValue, email }: { goldVal
                 </div>
                 <div className='flex flex-col w-full shadow-box py-6 px-6'>
                     <p className='text-h6 font-bold'>{quantity.toLocaleString('sl-SI', { maximumFractionDigits: 4, minimumFractionDigits: 4 })} TST = {quantity.toLocaleString('sl-SL')}g zlata = {Number((quantity * goldValue).toFixed(2)).toLocaleString('sl-SI')} EUR</p>
-                    <p>Danes nakupni tečaj zlata: 1g = {goldValue.toLocaleString('sl-SI')} EUR</p>
+                    <p>Danes nakupni tečaj zlata: 1g = {goldValue.toLocaleString('sl-SI', {
+                        maximumFractionDigits: 2,
+                        minimumFractionDigits: 2
+                    })} EUR</p>
                     <p className='font-bold'>Stroški obledave: {Number((quantity * feePerRateReverse)).toLocaleString('sl-SI', {
                         maximumFractionDigits: 4,
                         minimumFractionDigits: 4
